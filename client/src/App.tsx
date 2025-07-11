@@ -7,6 +7,7 @@ import { useAuthQuery } from "@/hooks/useAuth";
 import POSPage from "@/pages/pos";
 import AdminPage from "@/pages/admin";
 import LoginPage from "@/pages/login";
+import LandingPage from "@/pages/landing";
 
 function AuthenticatedRouter() {
   const { user, isLoading, isAuthenticated } = useAuthQuery();
@@ -28,7 +29,6 @@ function AuthenticatedRouter() {
 
   return (
     <Switch>
-      <Route path="/" component={POSPage} />
       <Route path="/pos" component={POSPage} />
       <Route path="/admin" component={AdminPage} />
       <Route component={() => <div>404 - Page Not Found</div>} />
@@ -41,7 +41,13 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <AuthenticatedRouter />
+        <Switch>
+          <Route path="/" component={LandingPage} />
+          <Route path="/login" component={() => <LoginPage onLoginSuccess={() => {}} />} />
+          <Route path="/pos" component={AuthenticatedRouter} />
+          <Route path="/admin" component={AuthenticatedRouter} />
+          <Route component={() => <div>404 - Page Not Found</div>} />
+        </Switch>
       </TooltipProvider>
     </QueryClientProvider>
   );

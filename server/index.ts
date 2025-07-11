@@ -50,8 +50,8 @@ app.use((req, res, next) => {
   next();
 });
 
-// Simple health check at root for Railway
-app.get("/", (req, res) => {
+// Health check endpoint for Railway and monitoring
+app.get("/api/health", (req, res) => {
   res.json({ 
     status: "B-Plus POS is running", 
     timestamp: new Date().toISOString(),
