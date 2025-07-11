@@ -1,0 +1,172 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(0, 0%, 100%);
+  --foreground: hsl(55, 23%, 18%);
+  --muted: hsl(240, 5%, 96%);
+  --muted-foreground: hsl(240, 4%, 46%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(55, 23%, 18%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(55, 23%, 18%);
+  --border: hsl(240, 6%, 90%);
+  --input: hsl(240, 6%, 90%);
+  --primary: hsl(210, 79%, 46%);
+  --primary-foreground: hsl(210, 100%, 98%);
+  --secondary: hsl(123, 38%, 35%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(36, 100%, 48%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 72%, 51%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --success: hsl(123, 43%, 45%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --neutral: hsl(200, 15%, 28%);
+  --neutral-light: hsl(200, 20%, 94%);
+  --ring: hsl(210, 79%, 46%);
+  --radius: 0.5rem;
+}
+
+.dark {
+  --background: hsl(240, 10%, 4%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 4%, 16%);
+  --muted-foreground: hsl(240, 5%, 65%);
+  --popover: hsl(240, 10%, 4%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 4%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 4%, 16%);
+  --input: hsl(240, 4%, 16%);
+  --primary: hsl(210, 79%, 46%);
+  --primary-foreground: hsl(210, 100%, 98%);
+  --secondary: hsl(123, 38%, 35%);
+  --secondary-foreground: hsl(0, 0%, 100%);
+  --accent: hsl(36, 100%, 48%);
+  --accent-foreground: hsl(0, 0%, 100%);
+  --destructive: hsl(0, 62%, 30%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --success: hsl(123, 43%, 45%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --neutral: hsl(200, 15%, 28%);
+  --neutral-light: hsl(200, 20%, 94%);
+  --ring: hsl(210, 79%, 46%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  html, body, #root {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+@layer components {
+  .pos-button {
+    @apply px-6 py-3 rounded-lg font-medium transition-colors min-w-[120px] text-base;
+  }
+
+  .pos-button-primary {
+    @apply bg-primary text-primary-foreground hover:opacity-90;
+  }
+
+  .pos-button-secondary {
+    @apply bg-secondary text-secondary-foreground hover:opacity-90;
+  }
+
+  .pos-button-accent {
+    @apply bg-accent text-accent-foreground hover:opacity-90;
+  }
+
+  .pos-button-success {
+    @apply bg-green-600 text-white hover:opacity-90;
+  }
+
+  .pos-button-destructive {
+    @apply bg-destructive text-destructive-foreground hover:opacity-90;
+  }
+
+  .pos-button-neutral {
+    @apply bg-gray-100 text-gray-700 hover:opacity-80;
+  }
+
+  .pos-input {
+    @apply w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent text-base bg-background;
+  }
+
+  .pos-card {
+    @apply bg-card border border-border rounded-lg p-4 hover:shadow-md transition-shadow cursor-pointer;
+  }
+
+  .pos-modal {
+    @apply fixed inset-0 bg-black/50 flex items-center justify-center z-50;
+  }
+
+  .pos-modal-content {
+    @apply bg-card rounded-lg p-6 w-96 max-h-screen overflow-y-auto;
+  }
+
+  .quantity-control {
+    @apply w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 transition-colors;
+  }
+
+  .product-grid {
+    @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
+  }
+
+  @media (min-width: 1280px) {
+    .product-grid {
+      @apply grid-cols-4;
+    }
+  }
+
+  .cart-item {
+    @apply p-6 border-b border-border bg-card;
+  }
+
+  .sync-indicator {
+    @apply w-3 h-3 rounded-full animate-pulse;
+  }
+
+  .sync-connected {
+    @apply bg-green-500;
+  }
+
+  .sync-disconnected {
+    @apply bg-red-500;
+  }
+
+  .sync-syncing {
+    @apply bg-yellow-500;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  .print-only {
+    display: block !important;
+  }
+  
+  body {
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.4;
+  }
+  
+  .receipt-content {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "B-Plus POS",
+  "description": "Modern Point of Sale system built with React, TypeScript, Node.js, and PostgreSQL",
+  "repository": "https://github.com/your-username/bplus-pos",
+  "services": [
+    {
+      "name": "bplus-pos",
+      "type": "web",
+      "source": {
+        "repo": "your-username/bplus-pos",
+        "branch": "main"
+      },
+      "buildCommand": "npm run build",
+      "startCommand": "npm start",
+      "healthcheckPath": "/api/health",
+      "envVars": {
+        "NODE_ENV": {
+          "description": "Application environment",
+          "value": "production"
+        },
+        "SESSION_SECRET": {
+          "description": "Secret key for session encryption (32+ characters)",
+          "generate": true
+        }
+      }
+    },
+    {
+      "name": "postgres",
+      "type": "database",
+      "plan": "starter"
+    }
+  ],
+  "volumes": [],
+  "envVars": {
+    "DATABASE_URL": {
+      "description": "PostgreSQL database connection string",
+      "reference": "postgres.DATABASE_URL"
+    }
+  }
+}
