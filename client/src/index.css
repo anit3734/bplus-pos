@@ -66,6 +66,11 @@
 
   html, body, #root {
     height: 100%;
+  }
+  
+  /* Only apply overflow hidden to the POS app container, not the entire page */
+  .pos-app-container {
+    height: 100vh;
     overflow: hidden;
   }
 }

@@ -66,7 +66,7 @@ export default function POSPage() {
   });
 
   return (
-    <div className="h-screen bg-gray-50 overflow-hidden">
+    <div className="pos-app-container bg-gray-50">
       <POSHeader 
         selectedCustomer={selectedCustomer}
         onOpenCustomerModal={handleOpenCustomerModal}
