@@ -1,5 +1,6 @@
 #!/usr/bin/env tsx
 // Simple database initialization script that can be run standalone
+import 'dotenv/config';
 import { initializeDatabase } from './init-db';
 
 async function main() {
