@@ -1,14 +1,13 @@
 import { defineConfig } from "drizzle-kit";
 
-if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL, ensure the database is provisioned");
-}
+// Hardcoded Railway PostgreSQL URL
+const DATABASE_URL = "postgresql://postgres:kLABXvOMDLEkQEeoIGUwZZjKnWAJCcBM@centerbeam.proxy.rlwy.net:24504/railway";
 
 export default defineConfig({
   out: "./migrations",
   schema: "./shared/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: process.env.DATABASE_URL,
+    url: DATABASE_URL,
   },
 });

@@ -10,11 +10,11 @@ app.use(express.urlencoded({ extended: false }));
 
 // Session middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET || 'pos-system-secret-key-development',
+  secret: 'bplus-pos-secure-session-secret-key-production-2024',
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production', // HTTPS in production
+    secure: false, // Set to true if using HTTPS
     httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000 // 24 hours
   }
