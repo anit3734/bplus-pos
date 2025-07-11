@@ -5,11 +5,28 @@ import * as schema from "@shared/schema";
 
 neonConfig.webSocketConstructor = ws;
 
-if (!process.env.DATABASE_URL) {
-  throw new Error(
-    "DATABASE_URL must be set. Did you forget to provision a database?",
-  );
+// Get DATABASE_URL from environment variables
+const DATABASE_URL = process.env.DATABASE_URL || process.env.POSTGRES_URL;
+
+if (!DATABASE_URL) {
+  console.error(`
+❌ DATABASE_URL is not set!
+
+Please set one of these environment variables:
+- DATABASE_URL
+- POSTGRES_URL
+
+Examples:
+- For Railway: Use the POSTGRES_URL provided in your service variables
+- For local dev: postgresql://postgres:password@localhost:5432/bplus_pos
+- For Neon: Your Neon database connection string
+
+Copy .env.example to .env and configure your database URL.
+`);
+  throw new Error("DATABASE_URL must be set. Did you forget to provision a database?");
 }
 
-export const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+console.log("Connecting to database:", DATABASE_URL.replace(/\/\/[^@]+@/, '//***:***@'));
+
+export const pool = new Pool({ connectionString: DATABASE_URL });
 export const db = drizzle({ client: pool, schema });

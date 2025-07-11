@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import session from "express-session";
 import { setupRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { initializeDatabase } from "./init-db";
 
 const app = express();
 app.use(express.json());
@@ -50,7 +51,15 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = setupRoutes(app);
+  try {
+    console.log('🚀 Starting B-Plus POS server...');
+    
+    // Initialize database first
+    console.log('🔄 Initializing database...');
+    await initializeDatabase();
+    console.log('✅ Database initialized successfully');
+    
+    const server = setupRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -80,4 +89,21 @@ app.use((req, res, next) => {
   }, () => {
     log(`serving on port ${port}`);
   });
+
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    
+    if (error instanceof Error && error.message.includes('DATABASE_URL')) {
+      console.error(`
+🔧 Setup Instructions:
+1. Copy .env.example to .env
+2. Set DATABASE_URL in your .env file
+3. For production: Set DATABASE_URL in your platform's environment variables
+
+See PRODUCTION-SETUP.md for detailed instructions.
+`);
+    }
+    
+    process.exit(1);
+  }
 })();
