@@ -50,6 +50,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// Simple health check at root for Railway
+app.get("/", (req, res) => {
+  res.json({ 
+    status: "B-Plus POS is running", 
+    timestamp: new Date().toISOString(),
+    database: "connected"
+  });
+});
+
 (async () => {
   try {
     console.log('🚀 Starting B-Plus POS server...');
@@ -78,16 +87,12 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = 5000;
-  server.listen({
-    port,
-    host: "0.0.0.0",
-    reusePort: true,
-  }, () => {
-    log(`serving on port ${port}`);
+  // ALWAYS serve the app on the correct port for Railway
+  // Railway provides PORT environment variable, fallback to 5000
+  const port = parseInt(process.env.PORT || "5000", 10);
+  server.listen(port, "0.0.0.0", () => {
+    log(`🚀 Server serving on port ${port}`);
+    console.log(`📱 B-Plus POS is ready at http://0.0.0.0:${port}`);
   });
 
   } catch (error) {
