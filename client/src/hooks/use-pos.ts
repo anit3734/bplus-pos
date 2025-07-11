@@ -70,7 +70,7 @@ export function usePOS() {
   });
 
   // Get WooCommerce tax rate
-  const { data: wooTaxData } = useQuery({
+  const { data: wooTaxData } = useQuery<{ taxRate: number }>({
     queryKey: ["/api/woocommerce-tax-rate"],
     staleTime: 300000, // Cache for 5 minutes
   });

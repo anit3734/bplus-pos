@@ -186,14 +186,23 @@ export class DatabaseStorage implements IStorage, IAuthStorage {
   }
 
   async createProduct(product: InsertProduct): Promise<Product> {
-    const [newProduct] = await db.insert(products).values(product).returning();
+    const productData = {
+      ...product,
+      category_ids: Array.isArray(product.category_ids) ? product.category_ids : null
+    };
+    const [newProduct] = await db.insert(products).values(productData).returning();
     return newProduct;
   }
 
   async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product | undefined> {
+    const productData = {
+      ...product,
+      category_ids: Array.isArray(product.category_ids) ? product.category_ids : null,
+      updated_at: new Date()
+    };
     const [updated] = await db
       .update(products)
-      .set({ ...product, updated_at: new Date() })
+      .set(productData)
       .where(eq(products.id, id))
       .returning();
     return updated || undefined;
@@ -218,7 +227,7 @@ export class DatabaseStorage implements IStorage, IAuthStorage {
   async getOrders(limit?: number): Promise<Order[]> {
     let query = db.select().from(orders).orderBy(desc(orders.created_at));
     if (limit) {
-      query = query.limit(limit);
+      return await query.limit(limit);
     }
     return await query;
   }
@@ -234,14 +243,22 @@ export class DatabaseStorage implements IStorage, IAuthStorage {
   }
 
   async createOrder(order: InsertOrder): Promise<Order> {
-    const [newOrder] = await db.insert(orders).values(order).returning();
+    const orderData = {
+      ...order,
+      line_items: order.line_items as any[]
+    };
+    const [newOrder] = await db.insert(orders).values(orderData as any).returning();
     return newOrder;
   }
 
   async updateOrder(id: number, order: Partial<InsertOrder>): Promise<Order | undefined> {
+    const orderData = {
+      ...order,
+      line_items: order.line_items ? (order.line_items as any[]) : undefined
+    };
     const [updated] = await db
       .update(orders)
-      .set(order)
+      .set(orderData as any)
       .where(eq(orders.id, id))
       .returning();
     return updated || undefined;

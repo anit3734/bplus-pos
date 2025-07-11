@@ -28,6 +28,7 @@ interface Order {
   customer_name?: string | null;
   coupon_code: string | null;
   payment_method: string | null;
+  payment_details: any;
   synced: boolean | null;
   line_items: any[];
 }
@@ -269,13 +270,14 @@ export function OrdersHistoryModal({ isOpen, onClose }: OrdersHistoryModalProps)
           onClose={handleCloseReceipt}
           order={{
             ...selectedOrder,
+            payment_details: selectedOrder.payment_details || null,
             created_at: selectedOrder.created_at ? new Date(selectedOrder.created_at) : new Date()
           }}
-          customer={selectedOrder.customer_id ? {
-            phone: selectedOrder.customer_phone,
-            email: selectedOrder.customer_email,
-            first_name: selectedOrder.customer_first_name,
-            last_name: selectedOrder.customer_last_name
+          customer={selectedOrder.customer_name ? {
+            phone: "",
+            email: "",
+            first_name: selectedOrder.customer_name.split(' ')[0] || "",
+            last_name: selectedOrder.customer_name.split(' ')[1] || ""
           } : null}
         />
       )}

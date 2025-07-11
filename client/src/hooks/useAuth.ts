@@ -32,7 +32,7 @@ export function useAuthQuery() {
   const queryClient = useQueryClient();
   
   // Check authentication status
-  const { data: user, isLoading, error } = useQuery({
+  const { data: user, isLoading, error } = useQuery<{ user: any }>({
     queryKey: ["/api/auth/me"],
     retry: false,
     staleTime: 5 * 60 * 1000, // 5 minutes
